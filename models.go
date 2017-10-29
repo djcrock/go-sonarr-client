@@ -2,7 +2,7 @@ package sonarr
 
 import "time"
 
-// Series stored on the Sonarr server
+// Series stored on the Sonarr server.
 type Series struct {
 	Title           string `json:"title"`
 	AlternateTitles []struct {
@@ -63,7 +63,7 @@ type Series struct {
 	ID               int `json:"id"`
 }
 
-// Episode of a Series
+// Episode of a Series.
 type Episode struct {
 	SeriesID                 int       `json:"seriesId"`
 	EpisodeFileID            int       `json:"episodeFileID"`
@@ -79,7 +79,7 @@ type Episode struct {
 	ID                       int       `json:"id"`
 }
 
-// Quality of a file
+// Quality of a file.
 type Quality struct {
 	Quality struct {
 		ID   int    `json:"id"`
@@ -92,7 +92,7 @@ type Quality struct {
 	Proper bool `json:"proper"`
 }
 
-// EpisodeFile of an Episode
+// EpisodeFile of an Episode. Represents a file stored on disk.
 type EpisodeFile struct {
 	SeriesID            int     `json:"seriesId"`
 	SeasonNumber        int     `json:"seasonNumber"`
@@ -106,8 +106,7 @@ type EpisodeFile struct {
 	ID                  int     `json:"id"`
 }
 
-// Queue item currently being downloaded
-// /api/queue
+// Queue item currently being downloaded.
 type Queue struct {
 	Series                Series  `json:"series"`
 	Episode               Episode `json:"episode"`
@@ -126,7 +125,7 @@ type Queue struct {
 	ID         int    `json:"id"`
 }
 
-// Calendar entry for a past or upcoming airing
+// Calendar entry for a past or upcoming airing.
 type Calendar struct {
 	SeriesID                 int       `json:"seriesId"`
 	EpisodeFileID            int       `json:"episodeFileId"`
@@ -142,7 +141,7 @@ type Calendar struct {
 	UnverifiedSceneNumbering bool      `json:"unverifiedSceneNumbering"`
 }
 
-// DiskSpace remaining on each drive mounted on the server
+// DiskSpace remaining on each drive mounted on the server.
 type DiskSpace struct {
 	Path       string `json:"path"`
 	Label      string `json:"label"`
@@ -150,15 +149,13 @@ type DiskSpace struct {
 	TotalSpace int    `json:"totalSpace"`
 }
 
-// Tag used to tag Series
-// /api/tag
+// Tag used to tag Series.
 type Tag struct {
 	Label string `json:"label"`
 	ID    int    `json:"id"`
 }
 
-// SystemStatus of the server
-// /api/system/status
+// SystemStatus of the server.
 type SystemStatus struct {
 	Version           string `json:"version"`
 	BuildTime         string `json:"buildTime"`

@@ -192,7 +192,7 @@ func (s *Sonarr) DeleteEpisodeFile(episodeFileID int) (*EpisodeFile, error) {
 	return results, err
 }
 
-// GetAllSeries retrieves all Series for the given series ID.
+// GetAllSeries retrieves all Series.
 func (s *Sonarr) GetAllSeries() ([]Series, error) {
 	var results []Series
 	res, err := s.get(seriesEndpoint, nil)
