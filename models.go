@@ -1,5 +1,7 @@
 package sonarr
 
+import "time"
+
 // Series stored on the Sonarr server
 type Series struct {
 	Title           string `json:"title"`
@@ -7,17 +9,17 @@ type Series struct {
 		Title        string `json:"title"`
 		SeasonNumber int    `json:"seasonNumber"`
 	} `json:"alternateTitles"`
-	SortTitle         string `json:"sortTitle"`
-	SeasonCount       int    `json:"seasonCount"`
-	TotalEpisodeCount int    `json:"totalEpisodeCount"`
-	EpisodeCount      int    `json:"episodeCount"`
-	EpisodeFileCount  int    `json:"episodeFileCount"`
-	SizeOnDisk        int    `json:"sizeOnDisk"`
-	Status            string `json:"status"`
-	Overview          string `json:"overview"`
-	PreviousAiring    string `json:"previousAiring"`
-	Network           string `json:"network"`
-	AirTime           string `json:"airTime"`
+	SortTitle         string    `json:"sortTitle"`
+	SeasonCount       int       `json:"seasonCount"`
+	TotalEpisodeCount int       `json:"totalEpisodeCount"`
+	EpisodeCount      int       `json:"episodeCount"`
+	EpisodeFileCount  int       `json:"episodeFileCount"`
+	SizeOnDisk        int       `json:"sizeOnDisk"`
+	Status            string    `json:"status"`
+	Overview          string    `json:"overview"`
+	PreviousAiring    time.Time `json:"previousAiring"`
+	Network           string    `json:"network"`
+	AirTime           string    `json:"airTime"`
 	Images            []struct {
 		CoverType string `json:"coverType"`
 	} `json:"images"`
@@ -25,34 +27,34 @@ type Series struct {
 		SeasonNumber int  `json:"seasonNumber"`
 		Monitored    bool `json:"monitored"`
 		Statistics   struct {
-			PreviousAiring    string `json:"previousAiring"`
-			EpisodeFileCount  int    `json:"episodeFileCount"`
-			EpisodeCount      int    `json:"episodeCount"`
-			TotalEpisodeCount int    `json:"totalEpisodeCount"`
-			SizeOnDisk        int    `json:"sizeOnDisk"`
-			PercentOfEpisodes int    `json:"percentOfEpisodes"`
+			PreviousAiring    time.Time `json:"previousAiring"`
+			EpisodeFileCount  int       `json:"episodeFileCount"`
+			EpisodeCount      int       `json:"episodeCount"`
+			TotalEpisodeCount int       `json:"totalEpisodeCount"`
+			SizeOnDisk        int       `json:"sizeOnDisk"`
+			PercentOfEpisodes int       `json:"percentOfEpisodes"`
 		} `json:"statistics"`
 	} `json:"seasons"`
-	Year              int      `json:"year"`
-	Path              string   `json:"path"`
-	ProfileID         int      `json:"profileId"`
-	SeasonFolder      bool     `json:"seasonFolder"`
-	Monitored         bool     `json:"monitored"`
-	UseSceneNumbering bool     `json:"useSceneNumbering"`
-	Runtime           int      `json:"runtime"`
-	TvdbID            int      `json:"tvdbId"`
-	TvRageID          int      `json:"tvRageId"`
-	TvMazeID          int      `json:"tvMazeId"`
-	FirstAired        string   `json:"firstAired"`
-	LastInfoSync      string   `json:"lastInfoSync"`
-	SeriesType        string   `json:"seriesType"`
-	CleanTitle        string   `json:"cleanTitle"`
-	ImdbID            string   `json:"imdbId"`
-	TitleSlug         string   `json:"titleSlug"`
-	Certification     string   `json:"certification"`
-	Genres            []string `json:"genres"`
-	Tags              []int    `json:"tags"`
-	Added             string   `json:"added"`
+	Year              int       `json:"year"`
+	Path              string    `json:"path"`
+	ProfileID         int       `json:"profileId"`
+	SeasonFolder      bool      `json:"seasonFolder"`
+	Monitored         bool      `json:"monitored"`
+	UseSceneNumbering bool      `json:"useSceneNumbering"`
+	Runtime           int       `json:"runtime"`
+	TvdbID            int       `json:"tvdbId"`
+	TvRageID          int       `json:"tvRageId"`
+	TvMazeID          int       `json:"tvMazeId"`
+	FirstAired        time.Time `json:"firstAired"`
+	LastInfoSync      time.Time `json:"lastInfoSync"`
+	SeriesType        string    `json:"seriesType"`
+	CleanTitle        string    `json:"cleanTitle"`
+	ImdbID            string    `json:"imdbId"`
+	TitleSlug         string    `json:"titleSlug"`
+	Certification     string    `json:"certification"`
+	Genres            []string  `json:"genres"`
+	Tags              []int     `json:"tags"`
+	Added             time.Time `json:"added"`
 	Ratings           struct {
 		Votes int     `json:"votes"`
 		Value float32 `json:"value"`
@@ -63,18 +65,18 @@ type Series struct {
 
 // Episode of a Series
 type Episode struct {
-	SeriesID                 int    `json:"seriesId"`
-	EpisodeFileID            int    `json:"episodeFileID"`
-	SeasonNumber             int    `json:"seasonNumber"`
-	EpisodeNumber            int    `json:"episodeNumber"`
-	Title                    string `json:"title"`
-	AirDate                  string `json:"airDate"`
-	AirDateUTC               string `json:"airDateUTC"`
-	Overview                 string `json:"overview"`
-	HasFile                  bool   `json:"hasFile"`
-	Monitored                bool   `json:"monitored"`
-	UnverifiedSceneNumbering bool   `json:"unverifiedSceneNumbering"`
-	ID                       int    `json:"id"`
+	SeriesID                 int       `json:"seriesId"`
+	EpisodeFileID            int       `json:"episodeFileID"`
+	SeasonNumber             int       `json:"seasonNumber"`
+	EpisodeNumber            int       `json:"episodeNumber"`
+	Title                    string    `json:"title"`
+	AirDate                  string    `json:"airDate"`
+	AirDateUTC               time.Time `json:"airDateUTC"`
+	Overview                 string    `json:"overview"`
+	HasFile                  bool      `json:"hasFile"`
+	Monitored                bool      `json:"monitored"`
+	UnverifiedSceneNumbering bool      `json:"unverifiedSceneNumbering"`
+	ID                       int       `json:"id"`
 }
 
 // Quality of a file
@@ -126,18 +128,18 @@ type Queue struct {
 
 // Calendar entry for a past or upcoming airing
 type Calendar struct {
-	SeriesID                 int    `json:"seriesId"`
-	EpisodeFileID            int    `json:"episodeFileId"`
-	SeasonNumber             int    `json:"seasonNumber"`
-	EpisodeNumber            int    `json:"episodeNumber"`
-	Title                    string `json:"title"`
-	AirDate                  string `json:"airDate"`
-	AirDateUTC               string `json:"airDateUtc"`
-	HasFile                  bool   `json:"hasFile"`
-	Monitored                bool   `json:"monitored"`
-	AbsoluteEpisodeNumber    int    `json:"absoluteEpisodeNumber"`
-	Series                   Series `json:"series"`
-	UnverifiedSceneNumbering bool   `json:"unverifiedSceneNumbering"`
+	SeriesID                 int       `json:"seriesId"`
+	EpisodeFileID            int       `json:"episodeFileId"`
+	SeasonNumber             int       `json:"seasonNumber"`
+	EpisodeNumber            int       `json:"episodeNumber"`
+	Title                    string    `json:"title"`
+	AirDate                  string    `json:"airDate"`
+	AirDateUTC               time.Time `json:"airDateUtc"`
+	HasFile                  bool      `json:"hasFile"`
+	Monitored                bool      `json:"monitored"`
+	AbsoluteEpisodeNumber    int       `json:"absoluteEpisodeNumber"`
+	Series                   Series    `json:"series"`
+	UnverifiedSceneNumbering bool      `json:"unverifiedSceneNumbering"`
 }
 
 // DiskSpace remaining on each drive mounted on the server

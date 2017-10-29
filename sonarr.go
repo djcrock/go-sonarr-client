@@ -18,11 +18,13 @@ type Sonarr struct {
 }
 
 const (
-	calendarEndpoint    = "calendar"
-	diskSpaceEndpoint   = "diskspace"
-	episodeEndpoint     = "episode"
-	episodeFileEndpoint = "episodefile"
-	tagEndpoint         = "tag"
+	calendarEndpoint     = "calendar"
+	diskSpaceEndpoint    = "diskspace"
+	episodeEndpoint      = "episode"
+	episodeFileEndpoint  = "episodefile"
+	seriesEndpoint       = "series"
+	systemStatusEndpoint = "system/status"
+	tagEndpoint          = "tag"
 )
 
 // New creates a new Sonarr client instance.
@@ -187,6 +189,87 @@ func (s *Sonarr) DeleteEpisodeFile(episodeFileID int) (*EpisodeFile, error) {
 	defer res.Body.Close()
 
 	err = json.NewDecoder(res.Body).Decode(results)
+	return results, err
+}
+
+// GetAllSeries retrieves all Series for the given series ID.
+func (s *Sonarr) GetAllSeries() ([]Series, error) {
+	var results []Series
+	res, err := s.get(seriesEndpoint, nil)
+	if err != nil {
+		return results, err
+	}
+	defer res.Body.Close()
+
+	err = json.NewDecoder(res.Body).Decode(&results)
+	return results, err
+}
+
+// GetSeries retrieves the Series with the given ID.
+func (s *Sonarr) GetSeries(seriesID int) (*Series, error) {
+	results := &Series{}
+	if seriesID <= 0 {
+		return results, errors.New("seriesID must be a positive integer")
+	}
+	seriesURL := fmt.Sprintf("%s/%s", seriesEndpoint, strconv.Itoa(seriesID))
+	res, err := s.get(seriesURL, nil)
+	if err != nil {
+		return results, err
+	}
+	defer res.Body.Close()
+
+	err = json.NewDecoder(res.Body).Decode(results)
+	return results, err
+}
+
+// UpdateSeries updates the given Series.
+// This should be a Series you have previously retrieved with GetAllSeries()
+// or GetSeries(). The updated Series is returned.
+func (s *Sonarr) UpdateSeries(ser *Series) (*Series, error) {
+	results := &Series{}
+	seriesURL := fmt.Sprintf("%s/%s", seriesEndpoint, strconv.Itoa(ser.ID))
+	res, err := s.put(seriesURL, ser)
+	if err != nil {
+		return results, err
+	}
+	defer res.Body.Close()
+
+	err = json.NewDecoder(res.Body).Decode(results)
+	return results, err
+}
+
+// DeleteSeries deletes the Series with the given ID.
+// If deleteFiles is true, the series folder and all files will be deleted too.
+func (s *Sonarr) DeleteSeries(seriesID int, deleteFiles bool) (*Series, error) {
+	results := &Series{}
+	if seriesID <= 0 {
+		return results, errors.New("seriesID must be a positive integer")
+	}
+	params := make(url.Values)
+	if deleteFiles {
+		params.Set("deleteFiles", "true")
+	}
+	seriesURL := fmt.Sprintf("%s/%s", seriesEndpoint, strconv.Itoa(seriesID))
+	res, err := s.del(seriesURL, params)
+	if err != nil {
+		return results, err
+	}
+	defer res.Body.Close()
+
+	err = json.NewDecoder(res.Body).Decode(results)
+	return results, err
+}
+
+// GetSystemStatus retrieves system information about the Sonarr server.
+func (s *Sonarr) GetSystemStatus() (*SystemStatus, error) {
+	results := &SystemStatus{}
+	res, err := s.get(systemStatusEndpoint, nil)
+	if err != nil {
+		return results, err
+	}
+	defer res.Body.Close()
+
+	err = json.NewDecoder(res.Body).Decode(&results)
 	return results, err
 }
 
